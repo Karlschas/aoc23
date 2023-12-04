@@ -28,7 +28,9 @@ fileLines.on('pause', () => {
 
     if (matches.length > 0) {
       for (let j = 1; j <= matches.length; j++) {
-        if (cardsCount[i + j]) cardsCount[i + j] += cardsCount[i];
+        if (cardsCount[i + j]) {
+          cardsCount[i + j] += cardsCount[i];
+        }
       }
     }
   };
