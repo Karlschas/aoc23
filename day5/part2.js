@@ -3,16 +3,16 @@
 const fs = require('fs');
 const readline = require('readline');
 
-// const fileStream = fs.createReadStream('input.txt');
-const fileStream = fs.createReadStream('example.txt');
+const fileStream = fs.createReadStream('input.txt');
+// const fileStream = fs.createReadStream('example.txt');
 const fileLines = readline.createInterface({
   input: fileStream,
   crlfDelay: Infinity,
 });
 
 //seeds: 79 14 55 13
-let seedPairsArr = [79, 14, 55, 13];
-// let seedPairsArr = [858905075, 56936593, 947763189, 267019426, 206349064, 252409474, 660226451, 92561087, 752930744, 24162055, 75704321, 63600948, 3866217991, 323477533, 3356941271, 54368890, 1755537789, 475537300, 1327269841, 427659734];
+// let seedPairsArr = [79, 14, 55, 13];
+let seedPairsArr = [858905075, 56936593, 947763189, 267019426, 206349064, 252409474, 660226451, 92561087, 752930744, 24162055, 75704321, 63600948, 3866217991, 323477533, 3356941271, 54368890, 1755537789, 475537300, 1327269841, 427659734];
 let seedPairsMap = new Map();
 
 seedPairsArr.forEach((seed, index) => {
@@ -42,6 +42,7 @@ fileLines.on('line', (input) => {
 });
 
 fileLines.on('pause', () => {
+  const start = Date.now();
   const sortedLines = lines.map((line) => {
     line.instructionsArr = line.instructionsArr.sort((a, b) => {
       const [aDestinationRangeStart, aSourceRangeStart, aRange] = a.split(' ');
@@ -54,7 +55,7 @@ fileLines.on('pause', () => {
 
   let smallest = 0;
   seedPairsMap.forEach((value, key) => {
-    console.log('key: ', key);
+    console.log('key: ', key, ' time: ', Date.now() - start);
     for (let i = 0; i <= value; i++) {
       const seed = key + i;
       let currentAddress = seed;
@@ -89,4 +90,5 @@ fileLines.on('pause', () => {
     }
   });
   console.log('smallest: ', smallest);
+  console.log('Time: ', Date.now() - start);
 });
